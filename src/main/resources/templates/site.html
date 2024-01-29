@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Manager</title>
+</head>
+<body>
+<h1>Hello, <span th:text="${userName}"></span>!</h1>
+
+<h3>Account balance: <span th:text="${accBalance}">pln</span></h3>
+<h3>Total earned: <span th:text="${totalEarned}">pln</span></h3>
+<h3>Total spent: <span th:text="${totalSpent}">pln</span></h3>
+
+<form action="/deposit" method="get">
+    <button type="submit">Make a Deposit</button>
+</form>
+</body>
+</html>

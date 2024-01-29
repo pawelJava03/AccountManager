@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Deposit Page</title>
+</head>
+<body>
+<h2>Hello, <span th:text="${userName}"></span>!</h2>
+
+<div th:if="${error}">
+    <p style="color: red;" th:text="${error}"></p>
+</div>
+
+<p>Your account balance: <span th:text="${accBalance}"></span></p>
+<p>Total earned: <span th:text="${totalEarned}"></span></p>
+<p>Total spent: <span th:text="${totalSpent}"></span></p>
+
+<form method="post" action="/deposit">
+    <label for="amount">Enter deposit amount:</label>
+    <input type="text" id="amount" name="amount" required/>
+
+    <button type="submit">Deposit</button>
+</form>
+
+<div th:if="${amount}">
+    <p>You have deposited: <span th:text="${amount}"></span></p>
+</div>
+</body>
+</html>
