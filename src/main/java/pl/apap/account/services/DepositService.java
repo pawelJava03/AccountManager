@@ -10,14 +10,14 @@ import java.math.BigDecimal;
 @Service
 public class DepositService {
 
-    User user;
-
+    private final UsersRepository repository;
 
     @Autowired
-    UsersRepository repository;
+    public DepositService(UsersRepository repository) {
+        this.repository = repository;
+    }
 
-
-    public void deposit(BigDecimal amount) {
+    public void deposit(User user, BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) > 0) {
             user.setAccountBalance(user.getAccountBalance().add(amount));
             user.setTotalEarned(user.getTotalEarned().add(amount));
@@ -25,7 +25,5 @@ public class DepositService {
         } else {
             throw new IllegalArgumentException("Amount must be greater than zero for deposit.");
         }
-
     }
-
 }
