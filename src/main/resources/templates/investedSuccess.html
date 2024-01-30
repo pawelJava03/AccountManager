@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Invested Successfully</title>
+</head>
+<body>
+<h1>Invested Successfully</h1>
+<p>Your total invested money: <span th:text="${investedMoney}"></span></p>
+
+<form action="/site" method="get">
+    <button type="submit">Back to the account manager</button>
+</form>
+</body>
+</html>

@@ -23,6 +23,7 @@ public class User {
     private String surname;
     private String email;
     private LocalDate dateOfBirth;
+    private BigDecimal investedMoney;
     private BigDecimal accountBalance;
     private BigDecimal totalEarned;
     private BigDecimal totalSpent;

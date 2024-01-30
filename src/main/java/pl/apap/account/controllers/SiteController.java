@@ -15,6 +15,7 @@ public class SiteController {
     public String showSiteForm(HttpSession session, Model model){
         User user = (User) session.getAttribute("user");
         if(user != null){
+            model.addAttribute("investedMoney", user.getInvestedMoney());
             model.addAttribute("userName", user.getName());
             model.addAttribute("accBalance", user.getAccountBalance());
             model.addAttribute("totalEarned", user.getTotalEarned());

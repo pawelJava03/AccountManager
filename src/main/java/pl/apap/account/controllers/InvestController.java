@@ -1,29 +1,27 @@
 package pl.apap.account.controllers;
 
+
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.AccessType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.apap.account.model.User;
-import pl.apap.account.services.DepositService;
-
+import pl.apap.account.services.InvestService;
 
 import java.math.BigDecimal;
 
 @Controller
-public class DepositController {
-
-    private final DepositService depositService;
+public class InvestController {
 
     @Autowired
-    public DepositController(DepositService depositService) {
-        this.depositService = depositService;
-    }
+    InvestService investService;
 
-    @GetMapping("/deposit")
-    public String showDepositForm(HttpSession session, Model model) {
+
+    @GetMapping("/invest")
+    public String showInvestForm(Model model, HttpSession session){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -35,11 +33,12 @@ public class DepositController {
         model.addAttribute("totalSpent", user.getTotalSpent());
         model.addAttribute("amount", BigDecimal.ZERO);
 
-        return "deposit";
+        return "invest";
     }
 
-    @PostMapping("/deposit")
-    public String deposit(HttpSession session, BigDecimal amount, Model model) {
+    @PostMapping("/invest")
+    public String invest(Model model, HttpSession session, BigDecimal amount){
+
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -49,35 +48,34 @@ public class DepositController {
         model.addAttribute("accBalance", user.getAccountBalance());
         model.addAttribute("totalEarned", user.getTotalEarned());
         model.addAttribute("totalSpent", user.getTotalSpent());
-        model.addAttribute("amount", amount);
+        model.addAttribute("amount", BigDecimal.ZERO);
 
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            model.addAttribute("error", "Amount must be greater than zero for deposit.");
-            return "deposit";
+            model.addAttribute("error", "Amount must be greater than zero for withdraw.");
+            return "invest";
         }
 
         try {
-            depositService.deposit(user, amount);
+            investService.invest(amount, user);
         } catch (Exception e) {
-            model.addAttribute("error", "Error during deposit: " + e.getMessage());
+            model.addAttribute("error", "Error during withdraw: " + e.getMessage());
         }
 
-        return "redirect:/deposit/success";
+        return "redirect:/invest/success";
     }
 
-
-    @GetMapping("/deposit/success")
-    public String showDepositSuccessForm(HttpSession session, Model model){
+    @GetMapping("/invest/success")
+    public String showInvestedSuccessForm(HttpSession session, Model model){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }
 
 
-        model.addAttribute("accBalance", user.getAccountBalance());
+        model.addAttribute("investedMoney", user.getInvestedMoney());
 
 
-        return "depositSuccess";
+        return "investedSuccess";
     }
 
 }

@@ -25,7 +25,7 @@ public class WithdrawController {
         if (user == null) {
             return "redirect:/login";
         }
-
+        model.addAttribute("investedMoney", user.getInvestedMoney());
         model.addAttribute("userName", user.getName());
         model.addAttribute("accBalance", user.getAccountBalance());
         model.addAttribute("totalEarned", user.getTotalEarned());
@@ -42,6 +42,7 @@ public class WithdrawController {
             return "redirect:/login";
         }
 
+        model.addAttribute("investedMoney", user.getInvestedMoney());
         model.addAttribute("userName", user.getName());
         model.addAttribute("accBalance", user.getAccountBalance());
         model.addAttribute("totalEarned", user.getTotalEarned());

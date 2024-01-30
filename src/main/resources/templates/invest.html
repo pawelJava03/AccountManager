@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Withdraw Page</title>
+    <title>Invest Page</title>
 </head>
 <body>
 <h2>Hello, <span th:text="${userName}"></span>!</h2>
@@ -15,23 +15,18 @@
 <p>Total invested: <span th:text="${investedMoney}"></span></p>
 <p>Total spent: <span th:text="${totalSpent}"></span></p>
 
-<form method="post" action="/withdraw">
-    <label for="amount">Enter withdraw amount:</label>
+<form method="post" action="/invest">
+    <label for="amount">Enter investment amount:</label>
     <input type="number" id="amount" name="amount" required/>
-    <button type="submit">Withdraw</button>
+    <button type="submit">Invest</button>
 </form>
 
 <div th:if="${amount}">
-    <p>You have withdrawn: <span th:text="${amount}"></span></p>
+    <p>You have invested: <span th:text="${amount}"></span></p>
 </div>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
 
 <form action="/site" method="get">
     <button type="submit">Back</button>
 </form>
-
 </body>
 </html>

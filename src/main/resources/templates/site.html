@@ -9,6 +9,7 @@
 
 <h3>Account balance: <span th:text="${accBalance}">pln</span></h3>
 <h3>Total earned: <span th:text="${totalEarned}">pln</span></h3>
+<h3>Total invested: <span th:text="${investedMoney}">pln</span></h3>
 <h3>Total spent: <span th:text="${totalSpent}">pln</span></h3>
 
 <form action="/deposit" method="get">
@@ -16,6 +17,9 @@
 </form>
 <form action="/withdraw" method="get">
     <button type="submit">Make a Withdraw</button>
+</form>
+<form action="/invest" method="get">
+    <button type="submit">Invest</button>
 </form>
 
 </body>
