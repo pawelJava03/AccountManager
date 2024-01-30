@@ -7,23 +7,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.apap.account.model.User;
-import pl.apap.account.services.DepositService;
-
+import pl.apap.account.services.WithdrawService;
 
 import java.math.BigDecimal;
 
 @Controller
-public class DepositController {
-
-    private final DepositService depositService;
+public class WithdrawController {
 
     @Autowired
-    public DepositController(DepositService depositService) {
-        this.depositService = depositService;
-    }
+    WithdrawService withdrawService;
 
-    @GetMapping("/deposit")
-    public String showDepositForm(HttpSession session, Model model) {
+
+
+    @GetMapping("/withdraw")
+    public String showWithdrawForm(HttpSession session, BigDecimal amount, Model model){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -35,11 +32,11 @@ public class DepositController {
         model.addAttribute("totalSpent", user.getTotalSpent());
         model.addAttribute("amount", BigDecimal.ZERO);
 
-        return "deposit";
+        return "withdraw";
     }
 
-    @PostMapping("/deposit")
-    public String deposit(HttpSession session, BigDecimal amount, Model model) {
+    @PostMapping("/withdraw")
+    public String withdraw(HttpSession session, BigDecimal amount, Model model){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -49,24 +46,25 @@ public class DepositController {
         model.addAttribute("accBalance", user.getAccountBalance());
         model.addAttribute("totalEarned", user.getTotalEarned());
         model.addAttribute("totalSpent", user.getTotalSpent());
-        model.addAttribute("amount", amount);
+        model.addAttribute("amount", BigDecimal.ZERO);
+
 
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            model.addAttribute("error", "Amount must be greater than zero for deposit.");
-            return "deposit";
+            model.addAttribute("error", "Amount must be greater than zero for withdraw.");
+            return "withdraw";
         }
 
         try {
-            depositService.deposit(user, amount);
+            withdrawService.withdraw(amount, user);
         } catch (Exception e) {
-            model.addAttribute("error", "Error during deposit: " + e.getMessage());
+            model.addAttribute("error", "Error during withdraw: " + e.getMessage());
         }
 
-        return "redirect:/deposit/success";
+        return "redirect:/withdraw/success";
     }
 
 
-    @GetMapping("/deposit/success")
+    @GetMapping("/withdraw/success")
     public String showDepositSuccessForm(HttpSession session, Model model){
         User user = (User) session.getAttribute("user");
         if (user == null) {
@@ -77,7 +75,10 @@ public class DepositController {
         model.addAttribute("accBalance", user.getAccountBalance());
 
 
-        return "depositSuccess";
+        return "withdrawSuccess";
     }
+
+
+
 
 }
