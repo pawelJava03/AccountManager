@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Withdraw Page</title>
+    <title>Withdraw Investment Page</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Assalamu+Alaikum&display=swap" rel="stylesheet">
 
@@ -14,10 +14,10 @@
 </div>
 
 <p>Your account balance: <span th:text="${accBalance}"></span></p>
-<p>Total spent: <span th:text="${totalSpent}"></span></p>
+<p>Total invested: <span th:text="${investedMoney}"></span></p>
 
-<form method="post" action="/withdraw">
-    <label for="amount">Enter withdraw amount:</label>
+<form method="post" action="/withdraw-investment">
+    <label for="amount">Enter withdrawal amount:</label>
     <input type="number" id="amount" name="amount" required/>
     <button type="submit">Withdraw</button>
 </form>
@@ -25,14 +25,9 @@
 <div th:if="${amount}">
     <p>You have withdrawn: <span th:text="${amount}"></span></p>
 </div>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
 
 <form action="/site" method="get">
     <button type="submit">Back</button>
 </form>
-
 </body>
 </html>

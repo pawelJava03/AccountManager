@@ -1,27 +1,25 @@
 package pl.apap.account.controllers;
 
-
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.AccessType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.apap.account.model.User;
-import pl.apap.account.services.InvestService;
+import pl.apap.account.services.WithdrawInvestmentService;
 
 import java.math.BigDecimal;
 
 @Controller
-public class InvestController {
+public class WithdrawInvestmentController {
+
 
     @Autowired
-    InvestService investService;
+    WithdrawInvestmentService withdrawInvestmentService;
 
-
-    @GetMapping("/invest")
-    public String showInvestForm(Model model, HttpSession session){
+    @GetMapping("/withdraw-investment")
+    public String showWithdrawInvestmentForm(HttpSession session, Model model){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -33,12 +31,11 @@ public class InvestController {
         model.addAttribute("totalSpent", user.getTotalSpent());
         model.addAttribute("amount", BigDecimal.ZERO);
 
-        return "invest";
+        return "withdraw_investment";
     }
 
-    @PostMapping("/invest")
-    public String invest(Model model, HttpSession session, BigDecimal amount){
-
+    @PostMapping("/withdraw-investment")
+    public String WithdrawInvestment(HttpSession session, Model model, BigDecimal amount){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -51,32 +48,32 @@ public class InvestController {
         model.addAttribute("amount", BigDecimal.ZERO);
 
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            model.addAttribute("error", "Amount must be greater than zero for withdraw.");
-            return "invest";
+            model.addAttribute("error", "Amount must be greater than zero to withdraw.");
+            return "withdraw_investment";
         }
 
         try {
-            investService.invest(amount, user);
+            withdrawInvestmentService.withdrawInvestment(amount, user);
         } catch (Exception e) {
             model.addAttribute("error", "Error during withdraw: " + e.getMessage());
         }
 
-        return "redirect:/invest/success";
+        return "redirect:/withdraw-investment/success";
     }
 
-    @GetMapping("/invest/success")
-    public String showInvestedSuccessForm(HttpSession session, Model model){
+
+    @GetMapping("/withdraw-investment/success")
+    public String showDepositSuccessForm(HttpSession session, Model model){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }
 
 
-        model.addAttribute("investedMoney", user.getInvestedMoney());
+        model.addAttribute("accBalance", user.getAccountBalance());
+        model.addAttribute("investedBalance", user.getInvestedMoney());
 
 
-        return "investedSuccess";
+        return "withdraw_investment_success";
     }
-
-
 }

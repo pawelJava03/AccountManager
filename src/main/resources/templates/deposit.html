@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Deposit Page</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Assalamu+Alaikum&display=swap" rel="stylesheet">
+
 </head>
 <body>
 <h2>Hello, <span th:text="${userName}"></span>!</h2>
@@ -11,9 +15,6 @@
 </div>
 
 <p>Your account balance: <span th:text="${accBalance}"></span></p>
-<p>Total earned: <span th:text="${totalEarned}"></span></p>
-<p>Total invested: <span th:text="${investedMoney}"></span></p>
-<p>Total spent: <span th:text="${totalSpent}"></span></p>
 
 <form method="post" action="/deposit">
     <label for="amount">Enter deposit amount:</label>

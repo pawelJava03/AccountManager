@@ -10,12 +10,9 @@ import java.math.BigDecimal;
 @Service
 public class WithdrawService {
 
-    private final UsersRepository repository;
-
     @Autowired
-    public WithdrawService(UsersRepository repository) {
-        this.repository = repository;
-    }
+    UsersRepository repository;
+
 
     public void withdraw(BigDecimal amount, User user){
         if (amount.compareTo(BigDecimal.ZERO) > 0){

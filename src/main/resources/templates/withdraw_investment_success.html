@@ -2,19 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>deposited successfully</title>
+    <title>Withdrawal Successful</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Assalamu+Alaikum&display=swap" rel="stylesheet">
+
 </head>
 <body>
-<h1>deposited successfully</h1>
-<p>Now your account balance is: <span th:text="${accBalance}">pln</span></p>
-
+<h1>Withdrawal Successful</h1>
+<p>Now your account balance is: <span th:text="${accBalance}"></span> PLN</p>
+<p>Now your investment balance is: <span th:text="${investedBalance}"></span> PLN</p>
 
 <form action="/site" method="get">
     <button type="submit">Back to the account manager</button>
 </form>
-
-
 </body>
 </html>
