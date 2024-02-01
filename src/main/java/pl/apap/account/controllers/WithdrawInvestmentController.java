@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.apap.account.model.User;
+import pl.apap.account.services.ConfirmationEmailService;
 import pl.apap.account.services.WithdrawInvestmentService;
 
 import java.math.BigDecimal;
@@ -17,6 +18,8 @@ public class WithdrawInvestmentController {
 
     @Autowired
     WithdrawInvestmentService withdrawInvestmentService;
+    @Autowired
+    ConfirmationEmailService emailService;
 
     @GetMapping("/withdraw-investment")
     public String showWithdrawInvestmentForm(HttpSession session, Model model){
@@ -76,4 +79,14 @@ public class WithdrawInvestmentController {
 
         return "withdraw_investment_success";
     }
-}
+
+    @PostMapping("/withdraw-investment/success")
+    public String depositSuccess(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        String email = (String) user.getEmail();
+
+        String messageBody = "Hi "+user.getName()+" you have successfully withdrawn invested money from your account. Yours account balace is now "+user.getAccountBalance()+"PLN, yours invested money balance is now " + user.getInvestedMoney()+"PLN";
+
+        emailService.sendConfirmationEmail(email, "Withdraw Investment Confirmation", messageBody);
+        return"redirect:/site";
+    }}

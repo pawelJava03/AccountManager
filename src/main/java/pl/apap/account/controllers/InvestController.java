@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.apap.account.model.User;
+import pl.apap.account.services.ConfirmationEmailService;
 import pl.apap.account.services.InvestService;
 
 import java.math.BigDecimal;
@@ -18,6 +19,8 @@ public class InvestController {
 
     @Autowired
     InvestService investService;
+    @Autowired
+    ConfirmationEmailService confirmationEmailService;
 
 
     @GetMapping("/invest")
@@ -71,11 +74,20 @@ public class InvestController {
             return "redirect:/login";
         }
 
-
         model.addAttribute("investedMoney", user.getInvestedMoney());
 
-
         return "investedSuccess";
+    }
+
+    @PostMapping("/invest/success")
+    public String investSuccess(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        String email = (String) user.getEmail();
+
+        String messageBody = "Hi "+user.getName()+" you have successfully invested money. Yours account balace is now "+user.getAccountBalance()+"PLN. Yours invested amount balance is "+user.getInvestedMoney()+"PLN";
+
+        confirmationEmailService.sendConfirmationEmail(email, "Invest Confirmation", messageBody);
+        return"redirect:/site";
     }
 
 

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.apap.account.model.User;
+import pl.apap.account.services.ConfirmationEmailService;
 import pl.apap.account.services.DepositService;
 
 
@@ -16,6 +17,9 @@ import java.math.BigDecimal;
 public class DepositController {
 
     private final DepositService depositService;
+
+    @Autowired
+    ConfirmationEmailService emailService;
 
     @Autowired
     public DepositController(DepositService depositService) {
@@ -79,5 +83,17 @@ public class DepositController {
 
         return "depositSuccess";
     }
+    @PostMapping("/deposit/success")
+    public String depositSuccess(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        String email = (String) user.getEmail();
+
+        String messageBody = "Hi "+user.getName()+" you have successfully deposited money from yours account. Yours account balace is now "+user.getAccountBalance()+"PLN";
+
+        emailService.sendConfirmationEmail(email, "Deposit Confirmation", messageBody);
+        return"redirect:/site";
+    }
+
+
 
 }

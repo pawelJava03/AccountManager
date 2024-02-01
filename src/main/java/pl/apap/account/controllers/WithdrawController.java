@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.apap.account.model.User;
+import pl.apap.account.services.ConfirmationEmailService;
 import pl.apap.account.services.WithdrawService;
 
 import java.math.BigDecimal;
@@ -16,6 +17,8 @@ public class WithdrawController {
 
     @Autowired
     WithdrawService withdrawService;
+    @Autowired
+    ConfirmationEmailService emailService;
 
 
 
@@ -77,6 +80,17 @@ public class WithdrawController {
 
 
         return "withdrawSuccess";
+    }
+
+    @PostMapping("/withdraw/success")
+    public String depositSuccess(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        String email = (String) user.getEmail();
+
+        String messageBody = "Hi "+user.getName()+" you have successfully withdrawn amount from yours account. Yours account balace is now "+user.getAccountBalance()+"PLN";
+
+        emailService.sendConfirmationEmail(email, "Withdraw Confirmation", messageBody);
+        return"redirect:/site";
     }
 
 
