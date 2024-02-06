@@ -1,6 +1,6 @@
 # Account Manager
 
-Account Manager to aplikacja webowa w języku Java, stworzona przy użyciu technologii Spring Boot, HttpSessions, Thymeleaf, HTML/CSS oraz z zastosowaniem podejścia OOP. Aplikacja ta pełni rolę symulatora konta bankowego, umożliwiając wpłacanie, wypłacanie środków, inwestowanie oraz wypłacanie inwestycji na główne konto.
+Account Manager to aplikacja webowa w języku Java, stworzona przy użyciu technologii Spring Boot, HttpSessions, Thymeleaf, HTML/CSS, JavaMailSender, Maven oraz z zastosowaniem podejścia OOP. Aplikacja ta pełni rolę symulatora konta bankowego, umożliwiając wpłacanie, wypłacanie środków, inwestowanie oraz wypłacanie inwestycji na główne konto.
 
 ## Instrukcje instalacji
 
