@@ -11,6 +11,8 @@ import pl.apap.account.repositories.UsersRepository;
 import pl.apap.account.services.EmailSenderService;
 import pl.apap.account.services.UserService;
 
+import java.math.BigDecimal;
+
 @Controller
 public class CreateUserController {
 
@@ -40,6 +42,11 @@ public class CreateUserController {
             userService.createUser(user);
             String email = user.getEmail();
             if (user != null && user.getEmail() != null) {
+                user.setAccountBalance(BigDecimal.valueOf(0));
+                user.setTotalEarned(BigDecimal.valueOf(0));
+                user.setInvestedMoney(BigDecimal.valueOf(0));
+                user.setTotalSpent(BigDecimal.valueOf(0));
+                usersRepository.save(user);
                 emailSenderService.SendEmail(user.getEmail(), "Account Manager", "Yours account has been created successfully");
             } else {
                 System.out.println("xd");
