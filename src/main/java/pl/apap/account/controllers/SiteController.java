@@ -11,8 +11,11 @@ import pl.apap.account.model.User;
 @RequestMapping("/site")
 public class SiteController {
 
+
+
     @GetMapping()
     public String showSiteForm(HttpSession session, Model model){
+
         User user = (User) session.getAttribute("user");
         if(user != null){
             model.addAttribute("investedMoney", user.getInvestedMoney());
