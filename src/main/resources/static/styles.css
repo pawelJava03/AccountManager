@@ -1,17 +1,17 @@
-/* styles.css */
 body {
-    background-color: #f8f8f8; /* jasne tło */
-    font-family: 'AssalamuAlaikum', sans-serif; /* niestandardowa czcionka */
+    background-color: #f8f8f8;
+    text-align: center;
+    font-family: 'AssalamuAlaikum', sans-serif;
     margin: 0;
     padding: 0;
 }
 
 h1, h2, h3 {
-    color: #333; /* kolor tekstu dla nagłówków */
+    color: #333;
 }
 
 button {
-    background-color: #4caf50; /* zielony kolor przycisków */
+    background-color: #4caf50;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -21,11 +21,11 @@ button {
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
-    border-radius: 5px; /* zaokrąglone rogi przycisku */
+    border-radius: 5px;
 }
 
 button:hover {
-    background-color: #45a049; /* zmiana koloru przycisku po najechaniu myszką */
+    background-color: #45a049;
 }
 
 input[type="text"],
