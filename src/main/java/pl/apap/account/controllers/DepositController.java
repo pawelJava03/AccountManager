@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.apap.account.model.User;
 import pl.apap.account.services.ConfirmationEmailService;
 import pl.apap.account.services.DepositService;
@@ -43,7 +44,7 @@ public class DepositController {
     }
 
     @PostMapping("/deposit")
-    public String deposit(HttpSession session, BigDecimal amount, Model model) {
+    public String deposit(HttpSession session, BigDecimal amount, RedirectAttributes redirectAttributes, Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
@@ -62,12 +63,16 @@ public class DepositController {
 
         try {
             depositService.deposit(user, amount);
+            redirectAttributes.addFlashAttribute("userName", user.getName());
+            redirectAttributes.addFlashAttribute("accBalance", user.getAccountBalance());
+            redirectAttributes.addFlashAttribute("amount", amount);
         } catch (Exception e) {
             model.addAttribute("error", "Error during deposit: " + e.getMessage());
         }
 
         return "redirect:/deposit/success";
     }
+
 
 
     @GetMapping("/deposit/success")
